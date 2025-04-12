@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BinIt | Analysis</title>
+    <link rel="icon" href="D:\xampp\htdocs\Major_Project\logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="analysis_visual_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav_left">
+            <img src="D:\xampp\htdocs\Major_Project\logo.png" alt="BinIt Logo" class="logo">
+            <p>BinIt</p>
+        </div>
+        <div class="nav_right">
+            <img src="user.png" alt="User-Profile" class="Profile_pic" id="profilePic">
+            <div class="username" id="username">USER NAME
+                <ul class="profile_card" id="profileMenu">
+                    <li>
+                        <a href="#">
+                            <img src="user_profile.png" alt="My Profile">
+                            <span>My Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="change_pass.png" alt="Change Password">
+                            <span>Change Password</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="logout.png" alt="Log Out">
+                            <span>Log Out</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="sidebar_menu">
+        <ul class="main_menu">
+            <li>
+                <a href="dashboard.html">
+                    <i class="fas fa-tachometer-alt"></i> 
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="user_input.html">
+                    <i class="fas fa-keyboard"></i> 
+                    <span>User Input</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="analysis_visual.html">
+                    <i class="fas fa-chart-bar"></i> 
+                    <span>Analysis & Visualization</span>
+                </a>
+            </li>
+            <li>
+                <a href="survey_feed.html">
+                    <i class="fas fa-poll"></i> 
+                    <span style="margin-left: 1vh;">Survey & Feedback</span>
+                </a>
+            </li>
+            <li>
+                <a href="help_support.html">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Help & Support</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+  
+<!-- ----------------------------------------------------------------------------------------------------------------------------- -->
+import folium
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+# Sample data for New Delhi areas
+waste_data = {
+    "Connaught Place": [50, 30, 20],
+    "Chandni Chowk": [60, 25, 15],
+    "Lajpat Nagar": [40, 35, 25],
+}
+waste_labels = ["Plastic", "Organic", "Metal"]
+
+# Coordinates for New Delhi areas
+locations = {
+    "Connaught Place": [28.6315, 77.2167],
+    "Chandni Chowk": [28.6562, 77.2301],
+    "Lajpat Nagar": [28.5672, 77.2432],
+}
+
+# Create map centered around New Delhi with limited boundaries
+m = folium.Map(
+    location=[28.6139, 77.209], 
+    zoom_start=13, 
+    # tiles="CartoDB positron",  # A clean, focused tile map
+    control_scale=True
+)
+
+def generate_chart(area):
+    fig, ax = plt.subplots()
+    ax.bar(waste_labels, waste_data[area], color=["blue", "green", "orange"])
+    ax.set_title(f"Waste Data for {area}")
+    ax.set_ylabel("Quantity")
+    
+    buf = BytesIO()
+    plt.savefig(buf, format="png")
+    plt.close(fig)
+    return base64.b64encode(buf.getvalue()).decode("utf-8")
+
+# Add markers for New Delhi areas
+for area, coords in locations.items():
+    img = generate_chart(area)
+    html = f'<img src="data:image/png;base64,{img}">'
+    iframe = folium.IFrame(html, width=400, height=300)
+    popup = folium.Popup(iframe, max_width=500)
+    folium.CircleMarker(
+        location=coords,
+        radius=10,
+        color='red',
+        fill=True,
+        fill_color='red',
+        popup=popup
+    ).add_to(m)
+
+# Save the map to an HTML file
+m.save("new_delhi_waste_dashboard.html")
+print("Dashboard created: Open 'new_delhi_waste_dashboard.html'")
+
+    
+</body>
+</html>

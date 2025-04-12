@@ -1,0 +1,443 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f0f2f5;
+    perspective: 1000px;
+}
+
+.container {
+    position: relative;
+    width: 900px; 
+    height: 600px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transform-style: preserve-3d;
+}
+
+.container:hover {
+    box-shadow: 0 10px 35px rgba(64, 179, 162, 0.2);
+}
+
+.forms-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    display: flex;
+    transition: transform 0.6s ease-in-out;
+}
+
+form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 40px; /* Reduced padding */
+    width: 50%;
+    height: 100%;
+}
+
+.sign-in-form {
+    width: 50%;
+    height: 100%;
+    transition: transform 0.6s ease-in-out, opacity 0.3s ease-in-out;
+    transform: translateX(100%); /* Initially hidden */
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sign-up-form {
+    width: 50%;
+    height: 100%;
+    transition: transform 0.6s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.container.sign-up-mode .sign-in-form {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: all;
+}
+
+.container.sign-up-mode .sign-up-form {
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.green-panel {
+    position: absolute;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(135deg, #40b3a2 0%, #3ca193 100%);
+    transition: transform 0.6s ease-in-out;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 0 40px;
+    overflow: hidden;
+}
+
+.green-panel::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    top: -100px;
+    right: -100px;
+    animation: float 6s ease-in-out infinite;
+}
+
+.container.sign-up-mode .green-panel {
+    transform: translateX(100%);
+}
+
+h2 {
+    margin-bottom: 30px;
+    font-size: 32px;
+    font-weight: 600;
+    color: #333;
+}
+
+.green-panel h2 {
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.input-group {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    margin: 10px 0;
+}
+
+.names-row { 
+    display: flex;
+    justify-content: space-between;
+}
+
+.names-row .input-group {
+    width: 48%; 
+}
+
+.input-field {
+    width: 100%;
+    padding: 15px;
+    padding-right: 40px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: #40b3a2;
+    box-shadow: 0 0 0 3px rgba(64, 179, 162, 0.1);
+}
+
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.validation-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.validation-icon.success {
+    content: '✓';
+    color: #40b3a2;
+    opacity: 1;
+}
+
+.validation-icon.error {
+    content: '✕';
+    color: #ff6b6b;
+    opacity: 1;
+}
+
+.error-message {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-top: 5px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.error-message.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.btn {
+    width: 100%; 
+    padding: 15px;
+    margin: 20px 0;
+    background: #40b3a2;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: -100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: 0.5s;
+}
+
+.btn:hover::after {
+    left: 100%;
+}
+
+.btn:hover {
+    background: #368f82;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(64, 179, 162, 0.3);
+}
+
+.green-panel .btn {
+    background: white;
+    color: #40b3a2;
+}
+
+.green-panel p {
+    margin: 20px 0 30px;
+    font-size: 16px;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+
+.progress-bar {
+    width: 100%;
+    max-width: 380px;
+    height: 4px;
+    background: #ddd;
+    border-radius: 2px;
+    margin-top: 5px;
+    overflow: hidden;
+    display: none;
+}
+
+.progress-bar .progress {
+    width: 0%;
+    height: 100%;
+    background: #40b3a2;
+    transition: width 0.3s ease;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.loading {
+    position: relative;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #fff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: none;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.input-group {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    margin: 15px 0;
+}
+
+.input-field {
+    width: 100%;
+    padding: 15px;
+    padding-right: 40px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.input-field.error {
+    border-color: #ff6b6b;
+}
+
+.input-field.success {
+    border-color: #40b3a2;
+}
+
+.input-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #666;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.error-message {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+.progress-bar {
+    width: 100%;
+    max-width: 380px;
+    height: 4px;
+    background: #ddd;
+    margin-top: 5px;
+    border-radius: 2px;
+    display: none;
+}
+
+.progress {
+    height: 100%;
+    background: #40b3a2;
+    width: 0;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.floating-labels .input-group {
+    position: relative;
+}
+
+.floating-labels label {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #666;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    background: white;
+    padding: 0 5px;
+}
+
+.floating-labels .input-field:focus + label,
+.floating-labels .input-field:not(:placeholder-shown) + label {
+    top: 0;
+    font-size: 12px;
+    color: #40b3a2;
+}
+
+.btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.success-message {
+    color: #40b3a2;
+    margin-top: 10px;
+    display: none;
+}
+
+.particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(64, 179, 162, 0.2);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: float-particle 4s infinite linear;
+}
+
+@keyframes float-particle {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Success animation */
+@keyframes checkmark {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.checkmark {
+    display: none;
+    color: #40b3a2;
+    font-size: 24px;
+    animation: checkmark 0.5s ease-in-out;
+}

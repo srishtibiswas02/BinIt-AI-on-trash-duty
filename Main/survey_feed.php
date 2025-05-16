@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BinIt | Feedback</title>
+    <link rel="icon" href="D:\xampp\htdocs\Major_Project\logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="survey_feed_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav_left">
+            <img src="D:\xampp\htdocs\Major_Project\logo.png" alt="BinIt Logo" class="logo">
+            <p>BinIt</p>
+        </div>
+        <div class="nav_right">
+            <img src="user.png" alt="User-Profile" class="Profile_pic" id="profilePic">
+            <div class="username" id="username"><?php echo $ses_username ?>
+                <ul class="profile_card" id="profileMenu">
+                    <li>
+                        <a href="#">
+                            <img src="user_profile.png" alt="My Profile">
+                            <span>My Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="change_pass.png" alt="Change Password">
+                            <span>Change Password</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="logout.png" alt="Log Out">
+                            <span>Log Out</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="sidebar_menu">
+        <ul class="main_menu">
+            <li>
+                <a href="dashboard.php">
+                    <i class="fas fa-tachometer-alt"></i> 
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="templates/user_input.php">
+                    <i class="fas fa-keyboard"></i> 
+                    <span>User Input</span>
+                </a>
+            </li>
+            <li>
+                <a href="analysis_visual.php">
+                    <i class="fas fa-chart-bar"></i> 
+                    <span>Analysis & Visualization</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="survey_feed.html">
+                    <i class="fas fa-poll"></i> 
+                    <span style="margin-left: 1vh;">Survey & Feedback</span>
+                </a>
+            </li>
+            <li>
+                <a href="help_support.php">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Help & Support</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+  
+<!-- ----------------------------------------------------------------------------------------------------------------------------- -->
+
+    
+</body>
+</html>

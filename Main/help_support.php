@@ -64,22 +64,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BinIt | Help & Support</title>
-    <link rel="icon" href="D:\xampp\htdocs\Major_Project\logo.png" type="image/x-icon">
+    <link rel="icon" href="../logo.png" type="image/x-icon">
     <link rel="stylesheet" href="help_support_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
+    <style>
+      .profile-modal {
+    display: none;
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    width: 220px;
+}
 
+.profile-modal.visible {
+    display: block;
+}
+
+.profile-options {
+    list-style: none;
+    padding: 10px;
+}
+
+.profile-options li {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.profile-options li:hover {
+    background-color: #f5f5f5;
+}
+
+.profile-options li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+.profile-options li img {
+    height: 20px;
+    width: 20px;
+}
+    </style>
 </head>
 <body>
   <nav>
     <div class="nav_left">
-        <img src="D:\xampp\htdocs\Major_Project\logo.png" alt="BinIt Logo" class="logo">
+        <img src="../logo.png" alt="BinIt Logo" class="logo">
         <p>BinIt</p>
     </div>
     <div class="nav_right">
-        <img src="user.png" alt="User-Profile" class="Profile_pic" id="profilePic">
-        <div class="username" id="username"><?php echo $ses_username ?>
-            <ul class="profile_card" id="profileMenu">
+    <img src="user.png" alt="User-Profile" class="Profile_pic" id="profilePic">
+    <div class="username" id="usernameDisplay"><?php echo $ses_username ?></div>
+    <div id="profileModal" class="profile-modal">
+        <div class="modal-content">
+            <ul class="profile-options">
                 <li>
                     <a href="#">
                         <img src="user_profile.png" alt="My Profile">
@@ -93,7 +138,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="logout.php">
                         <img src="logout.png" alt="Log Out">
                         <span>Log Out</span>
                     </a>
@@ -101,6 +146,8 @@
             </ul>
         </div>
     </div>
+</div>
+</div>
 </nav>
 
 <div class="sidebar_menu">
@@ -112,7 +159,7 @@
             </a>
         </li>
         <li>
-            <a href="templates/user_input.php">
+            <a href="/Major_Project/templates/user_input.php">
                 <i class="fas fa-keyboard"></i> 
                 <span>User Input</span>
             </a>
@@ -123,12 +170,12 @@
                 <span>Analysis & Visualization</span>
             </a>
         </li>
-        <li>
+        <!-- <li>
             <a href="survey_feed.html">
                 <i class="fas fa-poll"></i> 
                 <span style="margin-left: 1vh;">Survey & Feedback</span>
             </a>
-        </li>
+        </li> -->
         <li class="active">
             <a href="help_support.php">
                 <i class="fas fa-question-circle"></i>
@@ -205,10 +252,33 @@
   </div>
 </main>
     <script>
-        document.getElementById('username').addEventListener('click', function() {
-            document.getElementById('profileMenu').classList.toggle('show');
-        }); 
-    </script>
+   document.addEventListener('DOMContentLoaded', function() {
+    const profileModal = document.getElementById('profileModal');
+    const usernameDisplay = document.getElementById('usernameDisplay');
+    const profilePic = document.getElementById('profilePic');
+    
+    // Show modal when clicking on username or profile pic
+    function toggleModal(event) {
+        event.stopPropagation();
+        profileModal.classList.toggle('visible');
+    }
+    
+    usernameDisplay.addEventListener('click', toggleModal);
+    profilePic.addEventListener('click', toggleModal);
+    
+    // Close modal when clicking elsewhere
+    document.addEventListener('click', function() {
+        profileModal.classList.remove('visible');
+    });
+    
+    // Prevent clicks inside modal from closing it
+    profileModal.addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
+});
+
+  </script>
+
   </body>
   
 </html>

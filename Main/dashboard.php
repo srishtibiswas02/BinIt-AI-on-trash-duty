@@ -1,9 +1,15 @@
 <?php
     session_start();
+    // session_destroy();
     $err="";
     if (!isset($_SESSION['username'])) 
     {
         header('Location: /Major_Project/Login/login.php');
+        exit();
+    }
+    elseif($_SESSION['username']=="Admin")
+    {
+        header('Location: ../mail_garbage_report.php');
         exit();
     }
     else
@@ -78,8 +84,51 @@
     <title>BinIt | Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
     <link rel="stylesheet" href="dashboard_style.css">
-    <link rel="icon" href="/Major_Project/static/logo.png" type="image/x-icon">
+    <link rel="icon" href="../logo.png" type="image/x-icon">
+    <style>
+        .profile-modal {
+    display: none;
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    width: 220px;
+}
 
+.profile-modal.visible {
+    display: block;
+}
+
+.profile-options {
+    list-style: none;
+    padding: 10px;
+}
+
+.profile-options li {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.profile-options li:hover {
+    background-color: #f5f5f5;
+}
+
+.profile-options li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+.profile-options li img {
+    height: 20px;
+    width: 20px;
+}
+    </style>
 </head>
 
 <body>
@@ -89,30 +138,33 @@
             <p>BinIt</p>
         </div>
         <div class="nav_right">
-            <img src="/Major_Project/static/user.png" alt="User-Profile" class="Profile_pic" id="profilePic">
-            <div class="username" id="username"><?php echo $ses_username ?>
-                <ul class="profile_card" id="profileMenu">
-                    <li>
-                        <a href="#">
-                            <img src="/Major_Project/static/user_profile.png" alt="My Profile">
-                            <span>My Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="/Major_Project/static/change_pass.png" alt="Change Password">
-                            <span>Change Password</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="/Major_Project/static/logout.png" alt="Log Out">
-                            <span>Log Out</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+    <img src="user.png" alt="User-Profile" class="Profile_pic" id="profilePic">
+    <div class="username" id="usernameDisplay"><?php echo $ses_username ?></div>
+    <div id="profileModal" class="profile-modal">
+        <div class="modal-content">
+            <ul class="profile-options">
+                <li>
+                    <a href="#">
+                        <img src="user_profile.png" alt="My Profile">
+                        <span>My Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="change_pass.png" alt="Change Password">
+                        <span>Change Password</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="logout.php">
+                        <img src="logout.png" alt="Log Out">
+                        <span>Log Out</span>
+                    </a>
+                </li>
+            </ul>
         </div>
+    </div>
+</div>
     </nav>
 
     <div class="sidebar_menu">
@@ -135,12 +187,12 @@
                     <span>Analysis & Visualization</span>
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="survey_feed.html">
                     <i class="fas fa-poll"></i>
                     <span style="margin-left: 1vh;">Survey & Feedback</span>
                 </a>
-            </li>
+            </li> -->
             <li>
                 <a href="help_support.php">
                     <i class="fas fa-question-circle"></i>
@@ -165,8 +217,8 @@
                 <a href="/Major_Project/templates/user_input.php" style="text-decoration: none;">
                     <button><i class="fas fa-trash-alt"></i> Report</button>
                 </a>
-                <a href="survey_feed.html" style="text-decoration: none;">
-                    <button><i class="fas fa-poll"></i> Survey</button>
+                <a href="help_support.php" style="text-decoration: none;">
+                    <button><i class="fas fa-poll"></i> Help & Support</button>
                 </a>
             </div>
         </div>
@@ -199,7 +251,30 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-    
+            document.addEventListener('DOMContentLoaded', function() {
+            const profileModal = document.getElementById('profileModal');
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            const profilePic = document.getElementById('profilePic');
+            
+            // Show modal when clicking on username or profile pic
+            function toggleModal(event) {
+                event.stopPropagation();
+                profileModal.classList.toggle('visible');
+            }
+            
+            usernameDisplay.addEventListener('click', toggleModal);
+            profilePic.addEventListener('click', toggleModal);
+            
+            // Close modal when clicking elsewhere
+            document.addEventListener('click', function() {
+                profileModal.classList.remove('visible');
+            });
+            
+            // Prevent clicks inside modal from closing it
+            profileModal.addEventListener('click', function(event) {
+                event.stopPropagation();
+            });
+        });
             // Calendar with streak feature
         const streakData = <?php echo json_encode($streak_dates); ?>;
             class Calendar 

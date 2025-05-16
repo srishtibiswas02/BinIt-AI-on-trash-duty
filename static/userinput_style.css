@@ -81,8 +81,7 @@ nav {
     z-index: 1000; 
 }
 
-/* Show the dropdown on hover */
-.username:hover ul {
+.profile_card.show {
     display: block;
 }
 

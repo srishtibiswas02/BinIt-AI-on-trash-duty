@@ -1,3 +1,4 @@
+/* Reset and Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -12,6 +13,7 @@ body {
   background-color: #f5f5f5;
 }
 
+/* Navigation Bar Styles */
 nav {
   height: 70px;
   width: 100%;
@@ -63,39 +65,41 @@ nav {
   color: white;
   font-weight: 500;
   margin-right: 10px;
-  cursor: pointer; /* Add cursor for hover effect */
+  cursor: pointer;
 }
 
-/* Style the dropdown */
-.username ul {
-  position: absolute;
-  top: 100%; /* Position below the username */
-  right: 0;
-  background: white;
+/* Profile Modal Styles */
+.profile-modal {
+  display: none;
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  background-color: white;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  list-style: none;
-  padding: 10px;
-  min-width: 220px;
-  display: none; 
-  z-index: 1000; 
+  z-index: 1001;
+  width: 220px;
 }
 
-/* Show the dropdown on hover */
-.username:hover ul {
+.profile-modal.visible {
   display: block;
 }
 
-.profile_card li {
+.profile-options {
+  list-style: none;
+  padding: 10px;
+}
+
+.profile-options li {
   padding: 10px;
   border-radius: 5px;
 }
 
-.profile_card li:hover {
+.profile-options li:hover {
   background-color: #f5f5f5;
 }
 
-.profile_card li a {
+.profile-options li a {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -103,7 +107,7 @@ nav {
   color: #333;
 }
 
-.profile_card li img {
+.profile-options li img {
   height: 20px;
   width: 20px;
 }
@@ -111,26 +115,26 @@ nav {
 /* Sidebar Styles */
 .sidebar_menu {
   position: fixed;
-  top: 70px; 
+  top: 70px;
   left: 0;
   bottom: 0;
-  width: 6vw; 
+  width: 6vw;
   height: calc(100vh - 70px);
   overflow: hidden;
   transition: all 0.3s ease;
   background-color: #d7f8f3;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-  z-index: 900; 
+  z-index: 900;
 }
 
-.sidebar_menu a i { 
+.sidebar_menu a i {
   font-size: 5vh;
   color: #2c3e50;
   margin-right: 10vh;
 }
 
-.sidebar_menu:hover { 
-  width: 20vw; 
+.sidebar_menu:hover {
+  width: 20vw;
 }
 
 .main_menu {
@@ -161,36 +165,28 @@ nav {
 }
 
 .main_menu a i {
-margin-right: 10px; 
+  margin-right: 10px;
 }
 
-
-
-
+/* Main Content Styles */
 .main-content {
-  margin-left: 3vw;
-  margin-top: 50px;
-  /* padding: 20px; */
+  margin-left: 6vw;
+  margin-top: 70px;
   width: calc(100% - 6vw);
   min-height: calc(100vh - 70px);
   transition: margin-left 0.4s ease;
+  padding: 2rem;
 }
 
+/* Help & Support Page Styles */
 :root {
   --primary-color: #40b3a2;
   --primary-dark: #2d8476;
   --text-color: #2d3748;
   --border-color: #e2e8f0;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --transition: all 0.3s ease;
-}
-
-.main-content {
-  min-height: 100vh;
-  padding: 2rem;
-  background-color: var(--background-color);
-  font-family: system-ui, -apple-system, sans-serif;
 }
 
 .help-support-container {
@@ -236,8 +232,6 @@ margin-right: 10px;
   padding: 2rem;
   height: 500px;
   width: 600px;
-  /* height: 100%;
-  min-height: 500px; */
   display: flex;
   flex-direction: column;
 }
@@ -286,23 +280,7 @@ margin-right: 10px;
   line-height: 1.6;
 }
 
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
-
+/* Form Styles */
 input,
 textarea {
   width: 100%;
@@ -351,19 +329,36 @@ textarea {
   transform: translateY(0);
 }
 
-.php_msg{
+.php_msg {
   color: green;
   margin-top: 1vh;
 }
 
-@media (max-width: 768px) {
+/* Responsive Styles */
+@media (max-width: 1200px) {
   .sections-wrapper {
     grid-template-columns: 1fr;
   }
+  
+  .faq-section,
+  .contact-section {
+    width: 100%;
+    height: auto;
+  }
 }
 
-@media (max-width: 640px) {
+@media screen and (max-width: 768px) {
+  .sidebar_menu {
+    width: 5vw;
+  }
+  
+  .sidebar_menu:hover {
+    width: 25vw;
+  }
+  
   .main-content {
+    margin-left: 5vw;
+    width: calc(100% - 5vw);
     padding: 1rem;
   }
   
@@ -376,18 +371,12 @@ textarea {
   }
 }
 
-/* Media Queries for Responsiveness */
-@media screen and (max-width: 768px) {
-/* Adjust for smaller screens (tablets and below) */
-.sidebar_menu {
-  width: 5vw; /* Smaller width when collapsed */
-}
-
-.sidebar_menu:hover {
-  width: 25vw; /* Wider width on hover for better usability */
-}
-
-.main-content {
-  margin-left: 5vw; 
-}
+@media (max-width: 640px) {
+  .main-content {
+    padding: 1rem;
+  }
+  
+  .help-support-container {
+    padding: 1rem;
+  }
 }

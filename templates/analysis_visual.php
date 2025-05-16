@@ -1,4 +1,21 @@
 <?php
+
+session_start();
+// session_destroy();
+$err="";
+if (!isset($_SESSION['username'])) 
+{
+    header('Location: /Major_Project/Login/login.php');
+    exit();
+}
+elseif($_SESSION['username']=="Admin")
+{
+    header('Location: ../mail_garbage_report.php');
+    exit();
+}
+else
+{
+    $ses_username = $_SESSION['username'];   
   // Database connection details
   $servername = "localhost";
   $username = "root";
@@ -26,7 +43,7 @@
 
   // Close connection
   $conn->close();
-
+}
   // Return data as JSON
 //   header('Content-Type: application/json');
 //   echo json_encode($data);
@@ -40,7 +57,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BinIt | Analysis</title>
-    <link rel="icon" href="/Major_Project/static/logo.png" type="image/x-icon">
+    <link rel="icon" href="../logo.png" type="image/x-icon">
     <link rel="stylesheet" href="/Major_Project/static/analysis_visual_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> 
@@ -54,30 +71,33 @@
             <p>BinIt</p>
         </div>
         <div class="nav_right">
-            <img src="/Major_Project/static/user.png" alt="User-Profile" class="Profile_pic" id="profilePic">
-            <div class="username" id="username">USER NAME
-                <ul class="profile_card" id="profileMenu">
-                    <li>
-                        <a href="#">
-                            <img src="/Major_Project/static/user_profile.png" alt="My Profile">
-                            <span>My Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="/Major_Project/static/change_pass.png" alt="Change Password">
-                            <span>Change Password</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="/Major_Project/static/logout.png" alt="Log Out">
-                            <span>Log Out</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+    <img src="../Main/user.png" alt="User-Profile" class="Profile_pic" id="profilePic">
+    <div class="username" id="usernameDisplay"><?php echo $ses_username ?></div>
+    <div id="profileModal" class="profile-modal">
+        <div class="modal-content">
+            <ul class="profile-options">
+                <li>
+                    <a href="#">
+                        <img src="../Main/user_profile.png" alt="My Profile">
+                        <span>My Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="../Main/change_pass.png" alt="Change Password">
+                        <span>Change Password</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../Main/logout.php">
+                        <img src="../Main/logout.png" alt="Log Out">
+                        <span>Log Out</span>
+                    </a>
+                </li>
+            </ul>
         </div>
+    </div>
+</div>
     </nav>
     
     <div class="sidebar_menu">
@@ -100,12 +120,12 @@
                     <span>Analysis & Visualization</span>
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="/Major_Project/Main/survey_feed.html">
                     <i class="fas fa-poll"></i> 
                     <span style="margin-left: 1vh;">Survey & Feedback</span>
                 </a>
-            </li>
+            </li> -->
             <li>
                 <a href="/Major_Project/Main/help_support.php">
                     <i class="fas fa-question-circle"></i>
@@ -150,17 +170,69 @@
         </div>
         
         <div class="prediction-details">
-            <h3>Detected Waste Types</h3>
-            <ul>
-            <?php foreach ($prediction_data['predictions'] as $pred): ?>
-                <li>
-                    <strong><?php echo htmlspecialchars($pred['class']); ?></strong>: 
-                    <?php echo round($pred['confidence'] * 100, 2); ?>% confidence
-                </li>
+    <h3>Detected Waste Types</h3>
+    
+    <?php
+    // Define all possible waste categories
+    $categories = [
+        'Plastic' => 0,
+        'Paper' => 0,
+        'Misc' => 0,
+        'Metal' => 0,
+        'Kitchen Waste' => 0,
+        'Inside Dustbin' => 0,
+        'Glass' => 0,
+        'Cardboard' => 0
+    ];
+    
+    // Count occurrences of each category
+    if (isset($prediction_data['predictions'])) {
+        foreach ($prediction_data['predictions'] as $pred) {
+            $class = htmlspecialchars($pred['class']);
+            $confidence = round($pred['confidence'] * 100, 2);
+            
+            // Add to existing category or to Misc if not found
+            if (array_key_exists($class, $categories)) {
+                $categories[$class]++;
+            } else {
+                $categories['Misc']++;
+            }
+        }
+    }
+    ?>
+    
+    <table class="waste-categories-table">
+        <thead>
+            <tr>
+                <th>Waste Type</th>
+                <th>Count</th>
+                <th>Confidence Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($categories as $category => $count): ?>
+                <?php if ($count > 0): ?>
+                <tr>
+                    <td><?php echo $category; ?></td>
+                    <td><?php echo $count; ?></td>
+                    <td>
+                        <?php 
+                        // Display items in this category with their confidence levels
+                        $details = [];
+                        foreach ($prediction_data['predictions'] as $pred) {
+                            if ($pred['class'] == $category) {
+                                $details[] = round($pred['confidence'] * 100, 2) . '%';
+                            }
+                        }
+                        echo implode(', ', $details); 
+                        ?>
+                    </td>
+                </tr>
+                <?php endif; ?>
             <?php endforeach; ?>
-            </ul>
-        </div>
-    </div>
+        </tbody>
+    </table>
+</div>
     <?php endif; ?>
     
     <h2>Waste Locations Map</h2>
@@ -221,6 +293,33 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+.waste-categories-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-family: Arial, sans-serif;
+}
+
+.waste-categories-table th,
+.waste-categories-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.waste-categories-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}
+
+.waste-categories-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+.waste-categories-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
 </style>
 
 <script>
@@ -245,6 +344,31 @@
         .bindPopup(`<h3>${zone.area}</h3><p>Uploaded by: ${zone.username}</p>`) 
         .openPopup(); 
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const profileModal = document.getElementById('profileModal');
+    const usernameDisplay = document.getElementById('usernameDisplay');
+    const profilePic = document.getElementById('profilePic');
+    
+    // Show modal when clicking on username or profile pic
+    function toggleModal(event) {
+        event.stopPropagation();
+        profileModal.classList.toggle('visible');
+    }
+    
+    usernameDisplay.addEventListener('click', toggleModal);
+    profilePic.addEventListener('click', toggleModal);
+    
+    // Close modal when clicking elsewhere
+    document.addEventListener('click', function() {
+        profileModal.classList.remove('visible');
+    });
+    
+    // Prevent clicks inside modal from closing it
+    profileModal.addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
+});
   </script>
 </body>
 </html>

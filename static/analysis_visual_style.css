@@ -59,6 +59,49 @@ nav {
     margin-right: 15px;
 }
 
+.profile-modal {
+    display: none;
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    width: 220px;
+}
+
+.profile-modal.visible {
+    display: block;
+}
+
+.profile-options {
+    list-style: none;
+    padding: 10px;
+}
+
+.profile-options li {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.profile-options li:hover {
+    background-color: #f5f5f5;
+}
+
+.profile-options li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+.profile-options li img {
+    height: 20px;
+    width: 20px;
+}
+
 .username {
     color: white;
     font-weight: 500;
@@ -81,8 +124,7 @@ nav {
     z-index: 1000; 
 }
 
-/* Show the dropdown on hover */
-.username:hover ul {
+.profile_card.show {
     display: block;
 }
 

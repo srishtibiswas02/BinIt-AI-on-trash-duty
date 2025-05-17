@@ -5,11 +5,13 @@ FROM php:8.1-apache
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
-    libapache2-mod-php \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
 RUN docker-php-ext-install mysqli pdo pdo_mysql
+
+# Enable Apache modules
+RUN a2enmod rewrite
 
 # Set working directory
 WORKDIR /var/www/html
@@ -20,18 +22,13 @@ COPY . .
 # Install Python dependencies
 RUN pip3 install -r requirements.txt
 
-# Configure Apache for PHP
-RUN a2enmod rewrite
-RUN service apache2 restart
-
 # Expose ports
 EXPOSE 80 5000
 
 # Create startup script
 RUN echo '#!/bin/bash\n\
-service apache2 start\n\
-python3 app.py &\n\
-apache2-foreground' > /start.sh && chmod +x /start.sh
+apache2-foreground &\n\
+python3 app.py' > /start.sh && chmod +x /start.sh
 
 # Start both servers
 CMD ["/start.sh"]

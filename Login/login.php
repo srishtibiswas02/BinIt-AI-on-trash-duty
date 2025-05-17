@@ -2,10 +2,10 @@
     session_start();
 
     // Database connection
-    $server = "sql207.infinityfree.com";
-    $username = "if0_39005718";
-    $password = "BinIt020804";
-    $db_name = "if0_39005718_binit_db";
+    $server = getenv('MYSQL_HOST') ?: "sql207.infinityfree.com";
+    $username = getenv('MYSQL_USER') ?: "if0_39005718";
+    $password = getenv('MYSQL_PASSWORD') ?: "BinIt020804";
+    $db_name = getenv('MYSQL_DATABASE') ?: "if0_39005718_binit_db";
 
     $php_err = "";
 

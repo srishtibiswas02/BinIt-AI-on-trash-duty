@@ -4,5 +4,14 @@ services:
     runtime: docker
     dockerfilePath: ./Dockerfile
     plan: free
-    healthCheckPath: /
-    autoDeploy: true 
+    healthCheckPath: /Login/login.php
+    autoDeploy: true
+    envVars:
+      - key: MYSQL_HOST
+        value: sql207.infinityfree.com
+      - key: MYSQL_USER
+        value: if0_39005718
+      - key: MYSQL_PASSWORD
+        value: BinIt020804
+      - key: MYSQL_DATABASE
+        value: if0_39005718_binit_db 

@@ -97,7 +97,7 @@
                 $pass = htmlspecialchars($_POST["pass"]);
     
                 $db_name = "if0_39005718_binit_db";
-                $conn = new mysqli("localhost", "root", "", $db_name);
+                $conn = new mysqli("sql207.infinityfree.com", "if0_39005718", "BinIt020804", $db_name);
     
                 if ($conn->connect_error) {
                     $login_err = "Error connecting with the server";

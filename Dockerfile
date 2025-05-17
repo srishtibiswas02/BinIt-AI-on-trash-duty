@@ -5,6 +5,7 @@ FROM php:8.1-apache
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
+    python3-venv \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
@@ -16,11 +17,15 @@ RUN a2enmod rewrite
 # Set working directory
 WORKDIR /var/www/html
 
+# Create and activate Python virtual environment
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
 # Copy all project files
 COPY . .
 
-# Install Python dependencies
-RUN pip3 install -r requirements.txt
+# Install Python dependencies in virtual environment
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Expose ports
 EXPOSE 80 5000

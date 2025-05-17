@@ -1,11 +1,10 @@
 services:
   - type: web
-    name: BinIt-AI-on-trash-duty
+    name: binit-ai
     runtime: docker
     dockerfilePath: ./Dockerfile
     plan: free
-    healthCheckPath: /Login/login.php
-    autoDeploy: true
+    healthCheckPath: /
     envVars:
       - key: MYSQL_HOST
         value: sql207.infinityfree.com
@@ -14,4 +13,8 @@ services:
       - key: MYSQL_PASSWORD
         value: BinIt020804
       - key: MYSQL_DATABASE
-        value: if0_39005718_binit_db 
+        value: if0_39005718_binit_db
+    dns:
+      nameservers:
+        - 8.8.8.8
+        - 8.8.4.4 

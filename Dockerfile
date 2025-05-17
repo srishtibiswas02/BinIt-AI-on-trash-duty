@@ -9,11 +9,16 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     python3 \
     python3-pip \
+    python3-venv \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd mysqli pdo pdo_mysql zip
 
 # Set working directory
 WORKDIR /var/www/html
+
+# Create and activate Python virtual environment
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
 # Copy PHP files
 COPY . .
@@ -26,7 +31,7 @@ EXPOSE 80
 EXPOSE 5000
 
 # Create start script
-RUN echo '#!/bin/bash\napache2-foreground &\npython3 app.py' > /start.sh && chmod +x /start.sh
+RUN echo '#!/bin/bash\napache2-foreground &\n/opt/venv/bin/python3 app.py' > /start.sh && chmod +x /start.sh
 
 # Start Apache and Python app
 CMD ["/start.sh"]

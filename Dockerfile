@@ -1,43 +1,36 @@
 # Use PHP 8.1 as base image
 FROM php:8.1-apache
 
-# Install Python and required packages
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libzip-dev \
     python3 \
-    python3-venv \
     python3-pip \
-    python3-dev \
-    build-essential \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
-    && rm -rf /var/lib/apt/lists/*
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd mysqli pdo pdo_mysql zip
 
-# Install PHP extensions
-RUN docker-php-ext-install mysqli pdo pdo_mysql
-
-# Enable Apache modules
-RUN a2enmod rewrite
+# Configure DNS
+RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf && \
+    echo "nameserver 8.8.4.4" >> /etc/resolv.conf
 
 # Set working directory
 WORKDIR /var/www/html
 
-# Create and activate Python virtual environment
-RUN python3 -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-
-# Copy all project files
+# Copy PHP files
 COPY . .
 
 # Install Python dependencies in virtual environment
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Expose ports
-EXPOSE 80 5000
+EXPOSE 80
+EXPOSE 5000
 
-# Create startup script
-RUN echo '#!/bin/bash\n\
-apache2-foreground &\n\
-python3 app.py' > /start.sh && chmod +x /start.sh
+# Create start script
+RUN echo '#!/bin/bash\napache2-foreground &\npython3 app.py' > /start.sh && chmod +x /start.sh
 
-# Start both servers
+# Start Apache and Python app
 CMD ["/start.sh"]

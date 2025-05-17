@@ -17,10 +17,10 @@ else
 {
     $ses_username = $_SESSION['username'];   
   // Database connection details
-  $servername = "sql207.infinityfree.com";
-  $username = "if0_39005718";
-  $password = "BinIt020804";
-  $dbname = "if0_39005718_binit_db";
+  $servername = getenv('MYSQL_HOST') ?: "sql207.infinityfree.com";
+  $username = getenv('MYSQL_USER') ?: "if0_39005718";
+  $password = getenv('MYSQL_PASSWORD') ?: "BinIt020804";
+  $dbname = getenv('MYSQL_DATABASE') ?: "if0_39005718_binit_db";
 
   // Create connection
   $conn = new mysqli($servername, $username, $password, $dbname);

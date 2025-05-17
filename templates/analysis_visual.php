@@ -145,7 +145,7 @@ else
     
     if (!empty($image_filename)) {
         // Try to fetch prediction data from Flask API
-        $api_url = "http://localhost:5000/get_prediction/" . urlencode($image_filename);
+        $api_url = "https://binit-ai.onrender.com/get_prediction/" . urlencode($image_filename);
         $response = @file_get_contents($api_url);
         
         if ($response !== false) {

@@ -561,12 +561,12 @@
 
                 const formData = new FormData(uploadForm);
 
-                fetch("http://localhost:5000/test", {
+                fetch("https://binit-ai.onrender.com/process_image", {
                     mode: 'cors',
                     credentials: 'same-origin' 
                 })
                 .then(response => {
-                    return fetch("http://localhost:5000/process_image", {
+                    return fetch("https://binit-ai.onrender.com/process_image", {
                         method: "POST",
                         body: formData,
                         mode: 'cors',

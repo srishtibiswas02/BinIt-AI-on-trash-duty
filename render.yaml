@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: binit-ai
+    name: BinIt-AI-on-trash-duty
     runtime: docker
     dockerfilePath: ./Dockerfile
     plan: free

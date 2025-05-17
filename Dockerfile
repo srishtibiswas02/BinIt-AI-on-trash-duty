@@ -6,8 +6,10 @@ RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
     libapache2-mod-php \
-    php-mysql \
     && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 # Set working directory
 WORKDIR /var/www/html

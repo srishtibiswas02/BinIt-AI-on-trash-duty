@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     dnsutils \
     iputils-ping \
     net-tools \
+    curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd mysqli pdo pdo_mysql zip
 
@@ -38,9 +39,15 @@ EXPOSE 5000
 # Create start script with network diagnostics
 RUN echo '#!/bin/bash\n\
 echo "Testing network connectivity..."\n\
+echo "Current DNS servers:"\n\
+cat /etc/resolv.conf\n\
+echo "\nTesting DNS resolution:"\n\
 nslookup sql207.infinityfree.com\n\
+echo "\nTesting ping:"\n\
 ping -c 4 sql207.infinityfree.com\n\
-echo "Starting services..."\n\
+echo "\nTesting curl:"\n\
+curl -v sql207.infinityfree.com\n\
+echo "\nStarting services..."\n\
 apache2-foreground &\n\
 /opt/venv/bin/python3 app.py' > /start.sh && chmod +x /start.sh
 

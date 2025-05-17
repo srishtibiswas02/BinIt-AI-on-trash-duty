@@ -3,7 +3,7 @@
     $err="";
     if (!isset($_SESSION['username'])) 
     {
-        header('Location: /Major_Project/Login/login.php');
+        header('Location: ../Login/login.php');
         exit();
     }
     else
@@ -26,7 +26,7 @@
                 exit();
             }
             
-            $conn = new mysqli("localhost", "root", "", "binit_db", 3306);
+            $conn = new mysqli("sql207.infinityfree.com", "if0_39005718", "BinIt020804", "if0_39005718_binit_db", 3306);
             
             if ($conn->connect_error) {
                 $php_msg = "Database connection failed";
@@ -159,7 +159,7 @@
             </a>
         </li>
         <li>
-            <a href="/Major_Project/templates/user_input.php">
+            <a href="../templates/user_input.php">
                 <i class="fas fa-keyboard"></i> 
                 <span>User Input</span>
             </a>

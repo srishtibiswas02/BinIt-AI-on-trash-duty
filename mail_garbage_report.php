@@ -14,10 +14,10 @@ ini_set('display_errors', 1);
 date_default_timezone_set('Asia/Kolkata');
 
 $config = [
-    'host' => 'localhost',
-    'user' => 'root',
-    'pass' => '',
-    'db' => 'binit_db'
+    'host' => 'sql207.infinityfree.com',
+    'user' => 'if0_39005718',
+    'pass' => 'BinIt020804',
+    'db' => 'if0_39005718_binit_db'
 ];
 
 try {

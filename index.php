@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
     
-    $conn = new mysqli("localhost", "root", "", "binit_db", 3306);
+    $conn = new mysqli("sql207.infinityfree.com", "if0_39005718", "BinIt020804", "if0_39005718_binit_db", 3306);
     
     if ($conn->connect_error) {
         $php_msg = "Database connection failed";
@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <li><a href="#impact">Impact</a></li>
                     <li><a href="#faqs">FAQ</a></li>
                     <li><a href="#contact">Contact Us</a></li>
-                    <li><a href="/Major_Project/Login/login.php">Login/Signup</a></li>
+                    <li><a href="Login/login.php">Login/Signup</a></li>
                 </ul>
             </nav>
         </header>
@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="hero_left">
                 <h1>Detect! Track! Report!</h1>
                 <p class="p1">Revolutionizing Waste Management with AI</p>
-                <a href="/Major_Project/Login/login.php" class="btn">Get Started Now!</a>
+                <a href="Login/login.php" class="btn">Get Started Now!</a>
             </div>
             <div class="circle1"></div>
             <div class="circle2"></div>
@@ -214,7 +214,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="contact_left">
                     <p>Have questions or want to collaborate? Reach out to us!</p>
                     <p>Email: <a href="mailto:info@binit.com">info@binit.com</a></p>
-                    <p>Phone: <a href="tel:+18002464866">+1-800-BIN-IT-NOW</a></p>
+                    <p>Phone: <a href="tel:+18002464866">+91 9876543210</a></p>
                 </div>
                 <form id="contact-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <input type="text" name="name" placeholder="Your Name" required>

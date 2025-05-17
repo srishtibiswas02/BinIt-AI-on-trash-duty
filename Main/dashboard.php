@@ -4,7 +4,7 @@
     $err="";
     if (!isset($_SESSION['username'])) 
     {
-        header('Location: /Major_Project/Login/login.php');
+        header('Location: ../Login/login.php');
         exit();
     }
     elseif($_SESSION['username']=="Admin")
@@ -16,10 +16,10 @@
     {
         $ses_username = $_SESSION['username'];       
         
-        $servername = "localhost";
-        $username = "root"; 
-        $password = ""; 
-        $dbname = "binit_db"; 
+        $servername = "sql207.infinityfree.com";
+        $username = "if0_39005718"; 
+        $password = "BinIt020804"; 
+        $dbname = "if0_39005718_binit_db"; 
     
         $conn = new mysqli($servername, $username, $password, $dbname);
     
@@ -134,7 +134,7 @@
 <body>
     <nav>
         <div class="nav_left">
-            <img src="/Major_Project/static/logo.png" alt="BinIt Logo" class="logo">
+            <img src="../static/logo.png" alt="BinIt Logo" class="logo">
             <p>BinIt</p>
         </div>
         <div class="nav_right">
@@ -176,13 +176,13 @@
                 </a>
             </li>
             <li>
-                <a href="/Major_Project/templates/user_input.php">
+                <a href="../templates/user_input.php">
                     <i class="fas fa-keyboard"></i>
                     <span>User Input</span>
                 </a>
             </li>
             <li>
-                <a href="/Major_Project/templates/analysis_visual.php">
+                <a href="../templates/analysis_visual.php">
                     <i class="fas fa-chart-bar"></i>
                     <span>Analysis & Visualization</span>
                 </a>
@@ -214,7 +214,7 @@
             </div>
 
             <d<div class="call-to-action">
-                <a href="/Major_Project/templates/user_input.php" style="text-decoration: none;">
+                <a href="../templates/user_input.php" style="text-decoration: none;">
                     <button><i class="fas fa-trash-alt"></i> Report</button>
                 </a>
                 <a href="help_support.php" style="text-decoration: none;">

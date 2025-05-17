@@ -5,7 +5,7 @@
 
     if (!isset($_SESSION['username'])) 
     {
-        header('Location: /Major_Project/Login/login.php');
+        header('Location: ../Login/login.php');
         exit();
     }
     else
@@ -17,10 +17,10 @@
         header("X-XSS-Protection: 1; mode=block"); // Prevent XSS
         header("X-Content-Type-Options: nosniff"); // Prevent MIME-type sniffing
     
-        $servername = "localhost";
-        $username = "root"; 
-        $password = ""; 
-        $dbname = "binit_db"; 
+        $servername = "sql207.infinityfree.com";
+        $username = "if0_39005718"; 
+        $password = "BinIt020804"; 
+        $dbname = "if0_39005718_binit_db"; 
     
         $conn = new mysqli($servername, $username, $password, $dbname);
     
@@ -99,7 +99,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BinIt | User Input</title>
     <link rel="icon" href="../logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="/Major_Project/static/userinput_style.css">
+    <link rel="stylesheet" href="../static/userinput_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
     <style>
@@ -257,19 +257,19 @@
     <div class="sidebar_menu">
         <ul class="main_menu">
             <li>
-                <a href="/Major_Project/Main/dashboard.php">
+                <a href="../Main/dashboard.php">
                     <i class="fas fa-tachometer-alt"></i> 
                     <span>Dashboard</span>
                 </a>
             </li>
             <li class="active">
-                <a href="/Major_Project/templates/user_input.php">
+                <a href="/user_input.php">
                     <i class="fas fa-keyboard"></i> 
                     <span>User Input</span>
                 </a>
             </li>
             <li>
-                <a href="/Major_Project/templates/analysis_visual.php">
+                <a href="/analysis_visual.php">
                     <i class="fas fa-chart-bar"></i> 
                     <span>Analysis & Visualization</span>
                 </a>
@@ -281,7 +281,7 @@
                 </a>
             </li> -->
             <li>
-                <a href="/Major_Project/Main/help_support.php">
+                <a href="../Main/help_support.php">
                     <i class="fas fa-question-circle"></i>
                     <span>Help & Support</span>
                 </a>

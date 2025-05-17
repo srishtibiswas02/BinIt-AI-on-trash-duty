@@ -2,10 +2,10 @@
     session_start();
 
     // Database connection
-    $server = "localhost";
-    $username = "root";
-    $password = "";
-    $db_name = "binit_db";
+    $server = "sql207.infinityfree.com";
+    $username = "if0_39005718";
+    $password = "BinIt020804";
+    $db_name = "if0_39005718_binit_db";
 
     $php_err = "";
 
@@ -96,7 +96,7 @@
                 $uname = htmlspecialchars($_POST["uname"]);
                 $pass = htmlspecialchars($_POST["pass"]);
     
-                $db_name = "binit_db";
+                $db_name = "if0_39005718_binit_db";
                 $conn = new mysqli("localhost", "root", "", $db_name);
     
                 if ($conn->connect_error) {
@@ -117,7 +117,7 @@
                         // Use password_verify to check the hashed password
                         if (password_verify($pass, $hash_pass)) {
                             $_SESSION["username"] = $uname;
-                            header("Location: /Major_Project/Main/dashboard.php");
+                            header("Location: ../Main/dashboard.php");
                             exit();
                         } else {
                             $login_err = "Incorrect password.";
@@ -140,7 +140,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BinIt</title>
     <link rel="stylesheet" href="style_login.css">
-    <link rel="icon" href="C:\Users\Srishti\OneDrive\Desktop\Major_Project\logo.png" type="image/x-icon">
+    <link rel="icon" href="./logo.png" type="image/x-icon">
 </head>
 <body>
     <div class="container">

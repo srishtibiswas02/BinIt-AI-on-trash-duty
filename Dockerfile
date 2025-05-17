@@ -12,6 +12,9 @@ RUN apt-get update && apt-get install -y \
     python3-venv \
     libgl1-mesa-glx \
     libglib2.0-0 \
+    dnsutils \
+    iputils-ping \
+    net-tools \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd mysqli pdo pdo_mysql zip
 
@@ -32,8 +35,14 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 EXPOSE 80
 EXPOSE 5000
 
-# Create start script
-RUN echo '#!/bin/bash\napache2-foreground &\n/opt/venv/bin/python3 app.py' > /start.sh && chmod +x /start.sh
+# Create start script with network diagnostics
+RUN echo '#!/bin/bash\n\
+echo "Testing network connectivity..."\n\
+nslookup sql207.infinityfree.com\n\
+ping -c 4 sql207.infinityfree.com\n\
+echo "Starting services..."\n\
+apache2-foreground &\n\
+/opt/venv/bin/python3 app.py' > /start.sh && chmod +x /start.sh
 
 # Start Apache and Python app
 CMD ["/start.sh"]

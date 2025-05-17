@@ -3,10 +3,10 @@ FROM php:8.1-apache
 
 # Install Python and required packages
 RUN apt-get update && apt-get install -y \
-    python3.10 \
-    python3.10-venv \
+    python3 \
+    python3-venv \
     python3-pip \
-    python3.10-dev \
+    python3-dev \
     build-essential \
     libgl1-mesa-glx \
     libglib2.0-0 \
@@ -22,7 +22,7 @@ RUN a2enmod rewrite
 WORKDIR /var/www/html
 
 # Create and activate Python virtual environment
-RUN python3.10 -m venv /opt/venv
+RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 # Copy all project files
